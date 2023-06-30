@@ -19,5 +19,9 @@ namespace Cryptography
         public string ConvertKeyToBase64String(RSAParameters rsaParameters, bool isPrivateKey);
 
         public RSAParameters ConvertBase64StringToKey(string key, bool isPrivateKey);
+
+        public RSAParameters GetRSAPrivateKey(KeyPair keyPair);
+
+        public RSAParameters GetRSAPublicKey(KeyPair keyPair);
     }
 }

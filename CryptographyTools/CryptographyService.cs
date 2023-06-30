@@ -87,5 +87,15 @@ namespace Cryptography
 
             return rsaParameters;
         }
+
+        public RSAParameters GetRSAPrivateKey(KeyPair keyPair)
+        {
+            return ConvertBase64StringToKey(keyPair.PrivateKey, true);
+        }
+
+        public RSAParameters GetRSAPublicKey(KeyPair keyPair)
+        {
+            return ConvertBase64StringToKey(keyPair.PublicKey, false);
+        }
     }
 }
