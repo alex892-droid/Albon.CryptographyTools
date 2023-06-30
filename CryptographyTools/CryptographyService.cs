@@ -24,7 +24,7 @@ namespace Cryptography
         public string Sign(string message, string privateKey)
         {
             RSACryptoServiceProvider.ImportParameters(ConvertBase64StringToKey(privateKey, true));
-            return Convert.ToBase64String(RSACryptoServiceProvider.SignData(Encoding.ASCII.GetBytes(message), RSA.Create()));
+            return Convert.ToBase64String(RSACryptoServiceProvider.SignData(Encoding.ASCII.GetBytes(message), SHA256.Create()));
         }
 
         public bool VerifySignature(string message, string signature, string publicKey)
