@@ -46,7 +46,7 @@ namespace Cryptography
             }
         }
 
-        private string ConvertKeyToBase64String(RSAParameters rsaParameters, bool isPrivateKey)
+        public string ConvertKeyToBase64String(RSAParameters rsaParameters, bool isPrivateKey)
         {
             List<byte> byteArray = new List<byte>();
 
@@ -66,7 +66,7 @@ namespace Cryptography
             return Convert.ToBase64String(byteArray.ToArray());
         }
 
-        private RSAParameters ConvertBase64StringToKey(string key, bool isPrivateKey)
+        public RSAParameters ConvertBase64StringToKey(string key, bool isPrivateKey)
         {
             var byteArray = Convert.FromBase64String(key).ToList();
 

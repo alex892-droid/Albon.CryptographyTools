@@ -15,5 +15,9 @@ namespace Cryptography
         public string Sign(string message, string privateKey);
 
         public bool VerifySignature(string message, string signature, string publicKey);
+
+        public string ConvertKeyToBase64String(RSAParameters rsaParameters, bool isPrivateKey);
+
+        public RSAParameters ConvertBase64StringToKey(string key, bool isPrivateKey);
     }
 }
