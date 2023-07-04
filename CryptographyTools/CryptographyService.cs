@@ -5,18 +5,16 @@ using System.Text;
 
 namespace Cryptography
 {
-    public class CryptographyService : ICryptographyService
+    public static class CryptographyService
     {
-        RSACryptoServiceProvider RSACryptoServiceProvider { get; set; }
+        static RSACryptoServiceProvider RSACryptoServiceProvider { get; set; }
 
-        public CryptographyService()
+        static CryptographyService()
         {
             RSACryptoServiceProvider = new RSACryptoServiceProvider();
         }
 
-        public static RSAParameters RsaPrivateParameter { get; set; }
-
-        public KeyPair GenerateKeyPair()
+        public static KeyPair GenerateKeyPair()
         {
             var rsaPublicParameter = RSACryptoServiceProvider.ExportParameters(false);
             var publicKey = ConvertKeyToBase64String(rsaPublicParameter, false);
@@ -24,11 +22,10 @@ namespace Cryptography
             var rsaPrivateParameter = RSACryptoServiceProvider.ExportParameters(true);
             var privateKey = ConvertKeyToBase64String(rsaPrivateParameter, true);
 
-            RsaPrivateParameter = rsaPublicParameter;
             return new KeyPair(publicKey, privateKey);
         }
 
-        public string Sign(string message, string privateKey)
+        public static string Sign(string message, string privateKey)
         {
             try
             {
@@ -42,7 +39,7 @@ namespace Cryptography
             }
         }
 
-        public bool VerifySignature(string message, string signature, string publicKey)
+        public static bool VerifySignature(string message, string signature, string publicKey)
         {
             try
             {
@@ -62,7 +59,7 @@ namespace Cryptography
             }
         }
 
-        public string ConvertKeyToBase64String(RSAParameters rsaParameters, bool isPrivateKey)
+        public static string ConvertKeyToBase64String(RSAParameters rsaParameters, bool isPrivateKey)
         {
             List<byte> byteArray = new List<byte>();
 
@@ -82,7 +79,7 @@ namespace Cryptography
             return Convert.ToBase64String(byteArray.ToArray());
         }
 
-        public RSAParameters ConvertBase64StringToKey(string key, bool isPrivateKey)
+        public static RSAParameters ConvertBase64StringToKey(string key, bool isPrivateKey)
         {
             var byteArray = Convert.FromBase64String(key).ToList();
 
@@ -111,12 +108,12 @@ namespace Cryptography
             return rsaParameters;
         }
 
-        public RSAParameters GetRSAPrivateKey(KeyPair keyPair)
+        public static RSAParameters GetRSAPrivateKey(KeyPair keyPair)
         {
             return ConvertBase64StringToKey(keyPair.PrivateKey, true);
         }
 
-        public RSAParameters GetRSAPublicKey(KeyPair keyPair)
+        public static RSAParameters GetRSAPublicKey(KeyPair keyPair)
         {
             return ConvertBase64StringToKey(keyPair.PublicKey, false);
         }
