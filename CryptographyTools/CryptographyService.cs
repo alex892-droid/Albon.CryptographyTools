@@ -81,7 +81,15 @@ namespace Cryptography
 
         public static RSAParameters ConvertBase64StringToKey(string key, bool isPrivateKey)
         {
-            var byteArray = Convert.FromBase64String(key).ToList();
+            List<byte> byteArray = new List<byte>();
+            try
+            {
+                byteArray = Convert.FromBase64String(key).ToList();
+            }
+            catch(Exception e) 
+            {
+                throw new ArgumentException("Key need to be base 64 encoded.", e);
+            }
 
             RSAParameters rsaParameters = new RSAParameters();
             int index = 0;
