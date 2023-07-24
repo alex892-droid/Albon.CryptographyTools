@@ -1,4 +1,5 @@
-﻿using CryptographyTools;
+﻿using Albon.CryptographyTools;
+using CryptographyTools;
 using System;
 using System.Security.Cryptography;
 using System.Text;
@@ -31,7 +32,7 @@ namespace Cryptography
             {
                 var rsaParameters = ConvertBase64StringToKey(privateKey, true);
                 RSACryptoServiceProvider.ImportParameters(rsaParameters);
-                return Convert.ToBase64String(RSACryptoServiceProvider.SignData(Encoding.ASCII.GetBytes(message), SHA256.Create()));
+                return Base64UrlEncoder.ToBase64UrlEncode(RSACryptoServiceProvider.SignData(Encoding.ASCII.GetBytes(message), SHA256.Create()));
             }
             catch (Exception ex)
             {
@@ -45,7 +46,7 @@ namespace Cryptography
             {
                 var rsaParameters = ConvertBase64StringToKey(publicKey, false);
                 RSACryptoServiceProvider.ImportParameters(rsaParameters);
-                return RSACryptoServiceProvider.VerifyData(Encoding.ASCII.GetBytes(message), SHA256.Create(), Convert.FromBase64String(signature));
+                return RSACryptoServiceProvider.VerifyData(Encoding.ASCII.GetBytes(message), SHA256.Create(), Base64UrlEncoder.FromBase64UrlEncode(signature));
             }
             catch (CryptographicException e)
             {
@@ -76,7 +77,7 @@ namespace Cryptography
             byteArray.AddRange(rsaParameters.Exponent);
             byteArray.AddRange(rsaParameters.Modulus);
 
-            return Convert.ToBase64String(byteArray.ToArray());
+            return Base64UrlEncoder.ToBase64UrlEncode(byteArray.ToArray());
         }
 
         public static RSAParameters ConvertBase64StringToKey(string key, bool isPrivateKey)
@@ -84,7 +85,7 @@ namespace Cryptography
             List<byte> byteArray = new List<byte>();
             try
             {
-                byteArray = Convert.FromBase64String(key).ToList();
+                byteArray = Base64UrlEncoder.FromBase64UrlEncode(key).ToList();
             }
             catch(Exception e) 
             {
